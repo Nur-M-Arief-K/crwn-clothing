@@ -1,10 +1,12 @@
+import { Component } from "react";
 import { Fragment } from "react";
 import { Outlet, Link } from "react-router-dom";
 import { ReactComponent as CrwnLogo } from "../../assets/crown.svg"; 
 import "./navigation.styles.scss";
 
-const Navigation = () => {
-    return (
+class Navigation extends Component {
+    render() {
+       return ( 
         <Fragment>
             <div className="navigation">
             <Link className="logo-container" to="/">
@@ -18,7 +20,8 @@ const Navigation = () => {
             </div>
             <Outlet />
         </Fragment>
-    )
-};
+        )
+    }
+}
 
 export default Navigation;
