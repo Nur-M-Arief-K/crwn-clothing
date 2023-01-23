@@ -1,8 +1,8 @@
+import { Component } from "react";
 import Directory from "./components/directory/directory.component";
-import "./categories.styles.scss";
 
-const App = () => {
-  const categories = [
+class App extends Component {
+  categories = [
     {
       id: 1,
       title: "hats",
@@ -30,9 +30,11 @@ const App = () => {
     },
   ];
 
-  return (
-   <Directory categories={categories} />
-  );
+  render() {
+    return(
+      <Directory categories={this.categories} />
+    )
+  }
 };
 
 export default App;
