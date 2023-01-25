@@ -1,4 +1,4 @@
-import { Component } from "@firebase/component";
+import { Component } from "react";
 import { createAuthUserWithEmailAndPassword, createUserDocumentFromAuth } from "../../utils/firebase/firebase.utils";
 import "./sign-up-form.styles.scss";
 
@@ -23,7 +23,7 @@ class SignUpForm extends Component {
         });
     }
 
-    async handleSubmit(event) {
+    handleSubmit = async (event) => {
         event.preventDefault();
         const {displayName, email, password, confirmPassword} = this.state.formFields;
         if(password !== confirmPassword) {
@@ -39,11 +39,11 @@ class SignUpForm extends Component {
         }
     }
 
-    handleChange(event) {
+    handleChange = (event) => {
         const { name, value } = event.target;
-        this.setState({
+        this.setState(() => ({
             formFields: {...this.state.formFields, [name]: value}
-        })
+        }));
     };
 
     render() {
