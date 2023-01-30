@@ -37,7 +37,8 @@ class SignInForm extends Component {
     event.preventDefault();
     const { email, password } = this.state.formFields;
     try {
-        await signInAuthUserWithEmailAndPassword(email, password)
+        const response = await signInAuthUserWithEmailAndPassword(email, password)
+        console.log(response);
         this.resetFormFields();
     } catch (error) {
         switch(error.code) {
@@ -55,7 +56,9 @@ class SignInForm extends Component {
 
   handleChange = (event) => {
     const { name, value } = event.target;
-    this.setState({ ...this.state.formFields, [name]: value });
+    this.setState({ formFields: {
+      ...this.state.formFields, 
+      [name]: value} });
   };
 
   render() {
