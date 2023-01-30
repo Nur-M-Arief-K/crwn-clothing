@@ -7,6 +7,7 @@ import {
 import FormInput from "../form-input/form-input.component";
 import Button from "../button/button.component";
 import "./sign-in-form.styles.scss";
+import { UserContext } from "../../contexts/user.context";
 
 
 class SignInForm extends Component {
@@ -34,11 +35,12 @@ class SignInForm extends Component {
   };
 
   handleSubmit = async (event) => {
+    const { setCurrentUser } = this.context;
     event.preventDefault();
     const { email, password } = this.state.formFields;
     try {
-        const response = await signInAuthUserWithEmailAndPassword(email, password)
-        console.log(response);
+        const { user } = await signInAuthUserWithEmailAndPassword(email, password);
+        setCurrentUser(user);
         this.resetFormFields();
     } catch (error) {
         switch(error.code) {
@@ -95,5 +97,7 @@ class SignInForm extends Component {
     );
   }
 };
+
+SignInForm.contextType = UserContext;
 
 export default SignInForm;

@@ -3,6 +3,7 @@ import { createAuthUserWithEmailAndPassword, createUserDocumentFromAuth } from "
 import FormInput from "../form-input/form-input.component";
 import Button from "../button/button.component";
 import "./sign-up-form.styles.scss";
+import { UserContext } from "../../contexts/user.context";
 
 class SignUpForm extends Component {
     defaultFormFields = {
@@ -27,6 +28,7 @@ class SignUpForm extends Component {
 
     handleSubmit = async (event) => {
         event.preventDefault();
+        const {setCurrentUser} = this.context;
         const {displayName, email, password, confirmPassword} = this.state.formFields;
         if(password !== confirmPassword) {
             alert("password doesn't match");
@@ -34,6 +36,7 @@ class SignUpForm extends Component {
         }
         try {
             const { user } = await createAuthUserWithEmailAndPassword(email, password);
+            setCurrentUser(user);
             await createUserDocumentFromAuth(user, { displayName });
             this.resetFormFields();
         } catch (error) {
@@ -67,5 +70,7 @@ class SignUpForm extends Component {
     }
     
 }
+
+SignUpForm.contextType = UserContext;
 
 export default SignUpForm;
