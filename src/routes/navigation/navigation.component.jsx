@@ -6,12 +6,6 @@ import "./navigation.styles.scss";
 import { UserContext } from "../../contexts/user.context";
 
 class Navigation extends Component {
-  signOutHandler = async () => {
-    const { setCurrentUser } = this.context;
-    await signOutUser();
-    setCurrentUser(null);
-  };
-
   render() {
     const { currentUser } = this.context;
     return (
@@ -24,22 +18,28 @@ class Navigation extends Component {
             <Link className="nav-link" to="/shop">
               shop
             </Link>
-            {currentUser ? (
-              <span className="nav-link" onClick={this.signOutHandler}>
-                sign out
-              </span>
-            ) : (
-              <Link className="nav-link" to="/auth">
-                sign in
-              </Link>
-            )}
+                <div className="nav-links-container">
+                    <Link className="nav-link" to="/shop">
+                        shop
+                    </Link>
+                    {
+                        currentUser ?  (
+                            <span className="nav-link" onClick={signOutUser}>sign out</span>
+                        ) : (
+                            <Link className="nav-link" to="/auth">
+                                sign in
+                            </Link>
+                        )
+                    }
+                </div>
+            </div>
+            <Outlet />
           </div>
-        </div>
-        <Outlet />
-      </Fragment>
-    );
+        </Fragment>
+    )
   }
-}
+};
+
 
 Navigation.contextType = UserContext;
 

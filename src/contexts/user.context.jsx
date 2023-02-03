@@ -1,5 +1,6 @@
 import { Component } from "react";
 import { createContext } from "react";
+import { onAuthStateChangedListener, createUserDocumentFromAuth } from "../utils/firebase/firebase.utils";
 
 export const UserContext = createContext({
   currentUser: null,
@@ -7,11 +8,28 @@ export const UserContext = createContext({
 });
 
 export class UserProvider extends Component {
+  unsubscribe = null;
+  
   constructor() {
     super();
     this.state = {
       currentUser: null,
     };
+  }
+
+  componentDidMount() {
+    this.unsubscribe = onAuthStateChangedListener((user) => {
+      if(user) {
+          createUserDocumentFromAuth(user);
+      }
+      this.setState({
+        currentUser : user
+      });
+  });
+  }
+
+  componentWillUnmount() {
+    this.unsubscribe();
   }
 
   render() {
