@@ -1,32 +1,25 @@
 // CEK LAGI
 import { Component, Fragment } from "react";
 import { CategoriesContext } from "../../contexts/categories.context";
-import { withRouter } from "react-router";
+import { useParams } from "react-router-dom";
 import ProductCard from "../../components/product-card/product-card.component";
 import { CategoryContainer, Title } from './category.styles';
+
+function withParams(Component) {
+  return props => <Component {...props} params={useParams()} />;
+}
+
 
 class Category extends Component {
     static contextType = CategoriesContext;
     category;
     categoriesMap;
-
-    constructor() {
-        super();
-        this.category = this.props.match.params.category;
-        this.categoriesMap = this.context.categoriesMap;
-        this.state = {
-            products: this.categoriesMap[this.category]
-        }
-    }
+    products;
     
     render() {
-        // const { category } = this.props.match.params;
-        // const { categoriesMap } = this.context;
-        // const [products, setProducts] = useState(categoriesMap[category]);
-        // useEffect(() => {
-        //     setProducts(categoriesMap[category]);
-        // }, [category, categoriesMap]);
-    
+        this.category = this.props.params.category;
+        this.categoriesMap = this.context.categoriesMap;
+        this.products = this.categoriesMap[this.category];
         return (
             <Fragment>
                 <Title>{ this.category.toUpperCase() }</Title>
@@ -44,4 +37,4 @@ class Category extends Component {
     }
 };
 
-export default withRouter(Category);
+export default withParams(Category);

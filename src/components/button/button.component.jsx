@@ -5,18 +5,20 @@ import {
   InvertedButton,
 } from "./button.styles";
 
-class Button extends Component {
-  BUTTON_TYPE_CLASSES = {
-    base: "base",
-    google: "google-sign-in",
-    inverted: "inverted",
-  };
+export const BUTTON_TYPE_CLASSES = {
+  base: "base",
+  google: "google-sign-in",
+  inverted: "inverted",
+};
 
-  getButton = (buttonType = this.BUTTON_TYPE_CLASSES.base) =>
+class Button extends Component {
+  
+
+  getButton = (buttonType = BUTTON_TYPE_CLASSES.base) =>
     ({
-      [this.BUTTON_TYPE_CLASSES.base]: BaseButton,
-      [this.BUTTON_TYPE_CLASSES.google]: GoogleSignInButton,
-      [this.BUTTON_TYPE_CLASSES.inverted]: InvertedButton,
+      [BUTTON_TYPE_CLASSES.base]: BaseButton,
+      [BUTTON_TYPE_CLASSES.google]: GoogleSignInButton,
+      [BUTTON_TYPE_CLASSES.inverted]: InvertedButton,
     }[buttonType]);
 
   Button = ({ children, buttonType, ...otherProps }) => {
