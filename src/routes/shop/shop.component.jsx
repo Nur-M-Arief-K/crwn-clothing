@@ -10,15 +10,15 @@ class Shop extends Component {
             <ProductsContext.Consumer>
                 {(productsVal) => {
                     const { products } = productsVal;
-                    <div className="products-container">
-                        {products.map(product => {
-                            const { id } = product;
-                            return (
-                                <ProductCard key={id} product={product}></ProductCard>
-                            )
-                        })}
-                    </div>
-                }}
+                    return (
+                        <div className="products-container">
+                            {
+                                products.map((product) => <ProductCard key={product.id} product={product}></ProductCard>)
+                            }
+                        </div>
+                    );
+                } 
+                }
             </ProductsContext.Consumer>
         )
     }
