@@ -1,34 +1,37 @@
-import { createContext, useState, useEffect } from "react";
-import { addCollectionAndDocuments, getCategoresAndDocuments } from "../utils/firebase/firebase.utils";
-// import SHOP_DATA from "../shop-data";
+import { Component, createContext } from "react";
+import { getCategoresAndDocuments } from "../utils/firebase/firebase.utils";
 
 export const CategoriesContext = createContext({
-    categoriesMap: {},
+  categoriesMap: {},
 });
 
-export const CategoriesProvider = (props) => {
-    const { children } = props;
-    const [categoriesMap, setCategoriesMap] = useState({});
+export class CategoriesProvider extends Component {
+  getCategoriesMap = async () => {
+    const categoryMap = await getCategoresAndDocuments();
+    this.setState({ categoriesMap: categoryMap });
+  };
 
-    //To add collection categories to firestore db
-    // useEffect(() => {
-    //     addCollectionAndDocuments("categories", SHOP_DATA);
-    // }, []);
+  constructor() {
+    super();
+    this.state = {
+      categoriesMap: {},
+    };
+  }
 
-    //to fetch collection categories from db
-    useEffect(() => {
-        const getCategoriesMap = async () => {
-            const categoryMap = await getCategoresAndDocuments();
-            setCategoriesMap(categoryMap);
-        };
-        getCategoriesMap();
-    }, []);
+  componentDidMount() {
+    this.getCategoriesMap();
+  }
 
+  render() {
+    const categoriesMap = this.state.categoriesMap;
     const value = {
-        categoriesMap
-    }
-    return (
-        <CategoriesContext.Provider value={value}>{ children }</CategoriesContext.Provider>
-    )
-}
+      categoriesMap,
+    };
 
+    return (
+      <CategoriesContext.Provider value={value}>
+        {this.props.children}
+      </CategoriesContext.Provider>
+    );
+  }
+}
