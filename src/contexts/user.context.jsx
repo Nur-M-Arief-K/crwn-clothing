@@ -1,11 +1,11 @@
-import { Component, createContext  } from 'react';
-import { createAction } from '../utils/reducer/create-action.utils';
-import withUseReducer from '../utils/withReducer/with-reducer';
+import { Component, createContext } from "react";
+import { createAction } from "../utils/reducer/create-action.utils";
+import withUseReducer from "../utils/withReducer/with-reducer";
 
 import {
   onAuthStateChangedListener,
   createUserDocumentFromAuth,
-} from '../utils/firebase/firebase.utils';
+} from "../utils/firebase/firebase.utils";
 
 export const UserContext = createContext({
   setCurrentUser: () => null,
@@ -13,7 +13,7 @@ export const UserContext = createContext({
 });
 
 export const USER_ACTION_TYPES = {
-  SET_CURRENT_USER: 'SET_CURRENT_USER',
+  SET_CURRENT_USER: "SET_CURRENT_USER",
 };
 
 const INITIAL_STATE = {
@@ -32,28 +32,26 @@ const userReducer = (state, action) => {
 };
 
 class UserProvider extends Component {
-  setCurrentUser;
-  unsubscribe;
+  setCurrentUser = (user) =>
+    this.props.dispatch(createAction(USER_ACTION_TYPES.SET_CURRENT_USER, user));
+  unsubscribe = onAuthStateChangedListener((user) => {
+    if (user) {
+      createUserDocumentFromAuth(user);
+    }
+    this.setCurrentUser(user);
+  });
 
   componentWillUnmount() {
     this.unsubscribe();
   }
 
-  render() { 
-    this.setCurrentUser = (user) =>
-    this.props.dispatch(createAction(USER_ACTION_TYPES.SET_CURRENT_USER, user)); 
-
-    this.unsubscribe = onAuthStateChangedListener((user) => {
-      if (user) {
-        createUserDocumentFromAuth(user);
-      }
-      this.setCurrentUser(user);
-    });
-    
+  render() {
     return (
-      <UserContext.Provider value={ this.props.state }>{this.props.children}</UserContext.Provider>
+      <UserContext.Provider value={this.props.state}>
+        {this.props.children}
+      </UserContext.Provider>
     );
   }
-};
+}
 
 export default withUseReducer(userReducer, INITIAL_STATE)(UserProvider);
