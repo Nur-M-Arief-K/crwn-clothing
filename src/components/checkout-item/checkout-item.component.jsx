@@ -1,4 +1,5 @@
-import { useDispatch, useSelector } from "react-redux";
+import { Component } from "react";
+import { connect } from "react-redux";
 
 import {
   clearItemFromCart,
@@ -16,33 +17,39 @@ import {
   RemoveButton,
 } from "./checkout-item.styles";
 
-const CheckoutItem = (props) => {
-  const { cartItem } = props;
-  const { name, imageUrl, price, quantity } = cartItem;
-  const dispatch = useDispatch();
-  const cartItems = useSelector(selectCartItems);
+class CheckoutItem extends Component {
+  cartItem = this.props.cartItem;
+  cartItems = this.props.selectCartItems;
 
-  const clearItemHandler = () =>
-    dispatch(clearItemFromCart(cartItems, cartItem));
-  const addItemHandler = () => dispatch(addItemToCart(cartItems, cartItem));
-  const removeItemHandler = () =>
-    dispatch(removeItemFromCart(cartItems, cartItem));
+  clearItemHandler = () =>
+    this.props.clearItemFromCart(this.cartItems, this.cartItem);
+  addItemHandler = () => this.props.addItemToCart(this.cartItems, this.cartItem);
+  removeItemHandler = () =>
+    this.props.removeItemFromCart(this.cartItems, this.cartItem);
 
-  return (
-    <CheckoutItemContainer>
-      <ImageContainer>
-        <img src={imageUrl} alt={`${name}`} />
-      </ImageContainer>
-      <BaseSpan>{name}</BaseSpan>
-      <Quantity>
-        <Arrow onClick={removeItemHandler}>&#10094;</Arrow>
-        <Value>{quantity}</Value>
-        <Arrow onClick={addItemHandler}>&#10095;</Arrow>
-      </Quantity>
-      <BaseSpan>{price}</BaseSpan>
-      <RemoveButton onClick={clearItemHandler}>&#10005;</RemoveButton>
-    </CheckoutItemContainer>
-  );
-};
+  render() {
+    this.cartItems = this.props.selectCartItems;
+    this.cartItem = this.props.cartItem;
+    const { name, imageUrl, price, quantity } = this.cartItem;
+    return (
+      <CheckoutItemContainer>
+        <ImageContainer>
+          <img src={imageUrl} alt={`${name}`} />
+        </ImageContainer>
+        <BaseSpan>{name}</BaseSpan>
+        <Quantity>
+          <Arrow onClick={this.removeItemHandler}>&#10094;</Arrow>
+          <Value>{quantity}</Value>
+          <Arrow onClick={this.addItemHandler}>&#10095;</Arrow>
+        </Quantity>
+        <BaseSpan>{price}</BaseSpan>
+        <RemoveButton onClick={this.clearItemHandler}>&#10005;</RemoveButton>
+      </CheckoutItemContainer>
+    );
+  }
+}
 
-export default CheckoutItem;
+export default connect(
+  (state) => ({ selectCartItems: selectCartItems(state) }),
+  { clearItemFromCart, addItemToCart, removeItemFromCart }
+)(CheckoutItem);

@@ -1,4 +1,5 @@
-import { useDispatch, useSelector } from "react-redux";
+import { Component } from "react";
+import { connect } from "react-redux";
 
 import { selectCartItems } from "../../store/cart/cart.selector";
 import { addItemToCart } from "../../store/cart/cart.action";
@@ -10,28 +11,31 @@ import {
   Price,
 } from "./product-card.styles";
 
-const ProductCard = (props) => {
-  const { product } = props;
-  const { name, price, imageUrl } = product;
-  const dispatch = useDispatch();
-  const cartItems = useSelector(selectCartItems);
+class ProductCard extends Component {
+  product = this.props.product;
+  cartItems = this.props.selectCartItems;
+  addProductToCart = () => this.props.addItemToCart(this.cartItems, this.product);
 
-  const addProductToCart = () => dispatch(addItemToCart(cartItems, product));
-  return (
-    <ProductCartContainer>
-      <img src={imageUrl} alt={`${name}`} />
-      <Footer>
-        <Name>{name}</Name>
-        <Price>{price}</Price>
-      </Footer>
-      <Button
-        buttonType={BUTTON_TYPE_CLASSES.inverted}
-        onClick={addProductToCart}
-      >
-        Add to cart
-      </Button>
-    </ProductCartContainer>
-  );
+  render() {
+    const { name, price, imageUrl } = this.product;
+    this.cartItems = this.props.selectCartItems;
+
+    return (
+      <ProductCartContainer>
+        <img src={imageUrl} alt={`${name}`} />
+        <Footer>
+          <Name>{name}</Name>
+          <Price>{price}</Price>
+        </Footer>
+        <Button
+          buttonType={BUTTON_TYPE_CLASSES.inverted}
+          onClick={this.addProductToCart}
+        >
+          Add to cart
+        </Button>
+      </ProductCartContainer>
+    );
+  };
 };
 
-export default ProductCard;
+export default connect(state => ({selectCartItems: selectCartItems(state)}), {addItemToCart})(ProductCard);

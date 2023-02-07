@@ -1,4 +1,5 @@
-import { useSelector } from "react-redux";
+import { Component } from "react";
+import { connect } from "react-redux";
 
 import {
   selectCartItems,
@@ -12,35 +13,37 @@ import {
   Total,
 } from "./checkout.styles";
 
-const Checkout = () => {
-  const cartItems = useSelector(selectCartItems);
-  const cartTotal = useSelector(selectCartTotal);
-  return (
-    <CheckoutContainer>
-      <CheckoutHeader>
-        <HeaderBlock>
-          <span>Product</span>
-        </HeaderBlock>
-        <HeaderBlock>
-          <span>Description</span>
-        </HeaderBlock>
-        <HeaderBlock>
-          <span>Quantity</span>
-        </HeaderBlock>
-        <HeaderBlock>
-          <span>Price</span>
-        </HeaderBlock>
-        <HeaderBlock>
-          <span>Remove</span>
-        </HeaderBlock>
-      </CheckoutHeader>
-      {cartItems.map((cartItem) => {
-        const { id } = cartItem;
-        return <CheckoutItem key={id} cartItem={cartItem} />;
-      })}
-      <Total>${cartTotal}</Total>
-    </CheckoutContainer>
-  );
+class Checkout extends Component {
+  render() {
+    const cartItems = this.props.selectCartItems;
+    const cartTotal = this.props.selectCartTotal;
+    return (
+      <CheckoutContainer>
+        <CheckoutHeader>
+          <HeaderBlock>
+            <span>Product</span>
+          </HeaderBlock>
+          <HeaderBlock>
+            <span>Description</span>
+          </HeaderBlock>
+          <HeaderBlock>
+            <span>Quantity</span>
+          </HeaderBlock>
+          <HeaderBlock>
+            <span>Price</span>
+          </HeaderBlock>
+          <HeaderBlock>
+            <span>Remove</span>
+          </HeaderBlock>
+        </CheckoutHeader>
+        {cartItems.map((cartItem) => {
+          const { id } = cartItem;
+          return <CheckoutItem key={id} cartItem={cartItem} />;
+        })}
+        <Total>${cartTotal}</Total>
+      </CheckoutContainer>
+    );
+  };
 };
 
-export default Checkout;
+export default connect(state => ({selectCartItems: selectCartItems(state), selectCartTotal: selectCartTotal(state)}))(Checkout);
