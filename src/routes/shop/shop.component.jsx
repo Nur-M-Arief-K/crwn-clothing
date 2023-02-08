@@ -7,7 +7,7 @@ import Category from "../category/category.component";
 
 class Shop extends Component {
   componentDidMount() {
-    this.fetchCategoriesStart();
+    this.props.fetchCategoriesStart();
   }
 
   render() {

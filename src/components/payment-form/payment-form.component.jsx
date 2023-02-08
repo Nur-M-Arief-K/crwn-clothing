@@ -11,11 +11,7 @@ import { BUTTON_TYPE_CLASSES } from "../button/button.component";
 import { FormContainer } from "./payment-form.styles";
 import { PaymentButton, PaymentFormContainer } from "./payment-form.styles";
 
-class PaymentForm extends Component {
-  amount = this.props.selectCartTotal;
-  currentUser = this.props.selectCurrentUser;
-
-  
+class PaymentForm extends Component {  
   constructor() {
     super();
     this.state = {
@@ -25,7 +21,7 @@ class PaymentForm extends Component {
 
   paymentHandler = async (e) => {
     e.preventDefault();
-    if (!this.props.stripe || !this.props.stripeEl) {
+    if (!this.props.stripe || !this.props.elements) {
       return;
     }
     this.setState({isProcessingPayment: true});
@@ -43,7 +39,7 @@ class PaymentForm extends Component {
 
     const paymentResult = await this.props.stripe.confirmCardPayment(clientSecret, {
       payment_method: {
-        card: this.props.stripeEl.getElement(CardElement),
+        card: this.props.elements.getElement(CardElement),
         billing_details: {
           name: this.currentUser ? this.currentUser.displayName : "Guest",
         },

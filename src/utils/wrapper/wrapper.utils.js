@@ -11,5 +11,5 @@ export const withUseParams = (Component) => {
 }
 
 export const withUseStripe = (Component) => {
-  return (props) => <Component {...props} stripe={useStripe()} stripeEl={useElements()} params={useParams()}></Component>;
+  return (props) => <Component {...props} stripe={useStripe()} elements={useElements()}></Component>;
 }
