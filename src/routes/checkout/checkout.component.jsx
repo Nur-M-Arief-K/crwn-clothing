@@ -5,7 +5,10 @@ import {
   selectCartItems,
   selectCartTotal,
 } from "../../store/cart/cart.selector";
+
 import CheckoutItem from "../../components/checkout-item/checkout-item.component";
+import PaymentForm from "../../components/payment-form/payment-form.component";
+
 import {
   CheckoutContainer,
   CheckoutHeader,
@@ -41,6 +44,7 @@ class Checkout extends Component {
           return <CheckoutItem key={id} cartItem={cartItem} />;
         })}
         <Total>${cartTotal}</Total>
+        <PaymentForm />
       </CheckoutContainer>
     );
   };
