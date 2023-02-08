@@ -1,5 +1,6 @@
 import { Component } from "react";
-import { createAuthUserWithEmailAndPassword, createUserDocumentFromAuth } from "../../utils/firebase/firebase.utils";
+import { connect } from "react-redux";
+import { signUpStart } from "../../store/user/user.action";
 import FormInput from "../form-input/form-input.component";
 import Button from "../button/button.component";
 import { SignUpContainer } from './sign-up-form.styles';
@@ -32,8 +33,7 @@ class SignUpForm extends Component {
             return;
         }
         try {
-            const { user } = await createAuthUserWithEmailAndPassword(email, password);
-            await createUserDocumentFromAuth(user, { displayName });
+            this.props.signUpStart(email, password, displayName)
             this.resetFormFields();
         } catch (error) {
             console.log("user creation encountered an error", error);
@@ -63,4 +63,4 @@ class SignUpForm extends Component {
     };
 };
 
-export default SignUpForm;
+export default connect(null, { signUpStart })(SignUpForm);

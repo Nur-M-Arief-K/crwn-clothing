@@ -1,8 +1,16 @@
+<<<<<<< HEAD
 import { Component } from "react";
-import {
-  signInWithGooglePopup,
-  signInAuthUserWithEmailAndPassword,
-} from "../../utils/firebase/firebase.utils";
+import { connect } from "react-redux";
+// import {
+//   signInWithGooglePopup,
+//   signInAuthUserWithEmailAndPassword,
+// } from "../../utils/firebase/firebase.utils";
+import { googleSignInStart, emailSignInStart } from "../../store/user/user.action";
+=======
+import { useState } from "react";
+import { useDispatch } from "react-redux";
+import { googleSignInStart, emailSignInStart } from "../../store/user/user.action";
+>>>>>>> main
 import FormInput from "../form-input/form-input.component";
 import Button, { BUTTON_TYPE_CLASSES } from "../button/button.component";
 import { SignInContainer, ButtonsContainer } from "./sign-in-form.styles";
@@ -27,14 +35,13 @@ class SignInForm extends Component {
   };
 
   signInWithGoogle = async () => {
-    await signInWithGooglePopup();
+    this.props.googleSignInStart();
   };
 
   handleSubmit = async (event) => {
     event.preventDefault();
     try {
-      const { email, password } = this.state.formFields;
-      await signInAuthUserWithEmailAndPassword(email, password);
+      this.props.emailSignInStart(email, password);
       this.resetFormFields();
     } catch (error) {
       switch (error.code) {
@@ -94,4 +101,4 @@ class SignInForm extends Component {
   }
 }
 
-export default SignInForm;
+export default connect(null, { googleSignInStart, emailSignInStart })(SignInForm);
