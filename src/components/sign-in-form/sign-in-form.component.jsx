@@ -29,17 +29,8 @@ const SignInForm = () => {
       dispatch(emailSignInStart(email, password));
       resetFormFields();
     } catch (error) {
-        switch(error.code) {
-            case "auth/user-not-found":
-                alert("user not found");
-                break;
-            case "auth/wrong-password": 
-                alert("incorrect password for email");
-                break;
-            default:
-                console.log(error);
-        }
-    }
+        console.log(error);
+    };
   };
 
   const handleChange = (event) => {

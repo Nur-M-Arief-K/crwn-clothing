@@ -1,5 +1,6 @@
-import { createAction } from '../../utils/reducer/create-action.utils';
-import { CART_ACTION_TYPES } from './cart.types';
+import { createAction } from "@reduxjs/toolkit";
+
+import { CART_ACTION_TYPES } from "./cart.types";
 
 const addCartItem = (cartItems, productToAdd) => {
   const existingCartItem = cartItems.find(
@@ -39,20 +40,41 @@ const removeCartItem = (cartItems, cartItemToRemove) => {
 const clearCartItem = (cartItems, cartItemToClear) =>
   cartItems.filter((cartItem) => cartItem.id !== cartItemToClear.id);
 
-export const addItemToCart = (cartItems, productToAdd) => {
-  const newCartItems = addCartItem(cartItems, productToAdd);
-  return createAction(CART_ACTION_TYPES.SET_CART_ITEMS, newCartItems);
-};
+export const addItemToCart = createAction(
+  CART_ACTION_TYPES.SET_CART_ITEMS,
+  function prepare(cartItems, productToAdd) {
+    const newCartItems = addCartItem(cartItems, productToAdd);
+    return {
+      payload: newCartItems,
+    };
+  }
+);
 
-export const removeItemFromCart = (cartItems, cartItemToRemove) => {
-  const newCartItems = removeCartItem(cartItems, cartItemToRemove);
-  return createAction(CART_ACTION_TYPES.SET_CART_ITEMS, newCartItems);
-};
+export const removeItemFromCart = createAction(
+  CART_ACTION_TYPES.SET_CART_ITEMS,
+  function prepare(cartItems, cartItemToRemove) {
+    const newCartItems = removeCartItem(cartItems, cartItemToRemove);
+    return {
+      payload: newCartItems,
+    };
+  }
+);
 
-export const clearItemFromCart = (cartItems, cartItemToClear) => {
-  const newCartItems = clearCartItem(cartItems, cartItemToClear);
-  return createAction(CART_ACTION_TYPES.SET_CART_ITEMS, newCartItems);
-};
+export const clearItemFromCart = createAction(
+  CART_ACTION_TYPES.SET_CART_ITEMS,
+  function prepare(cartItems, cartItemToClear) {
+    const newCartItems = clearCartItem(cartItems, cartItemToClear);
+    return {
+      payload: newCartItems,
+    };
+  }
+);
 
-export const setIsCartOpen = (boolean) =>
-  createAction(CART_ACTION_TYPES.SET_IS_CART_OPEN, boolean);
+export const setIsCartOpen = createAction(
+  CART_ACTION_TYPES.SET_IS_CART_OPEN,
+  function prepare(bool) {
+    return {
+      payload: bool,
+    };
+  }
+);
