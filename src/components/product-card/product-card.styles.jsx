@@ -32,13 +32,13 @@ export const ProductCartContainer = styled.div`
 
   @media screen and (max-width: 800px) {
     width: 40vw;
-    opacity: 0;
 
     button {
       display: block;
       opacity: 0.9;
       min-width: unset;
       padding: 0 10px;
+      font-size: 12px;
 
       &:hover {
         img {
@@ -50,6 +50,10 @@ export const ProductCartContainer = styled.div`
         }
       }
     }
+  }
+
+  @media screen and (max-width: 400px) {
+    width: 80vw;
   }
 `;
 
