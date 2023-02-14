@@ -45,10 +45,10 @@ const SignUpForm = () => {
             <h2>Don't have an account?</h2>
             <span>Sign up with your email and password</span>
             <form onSubmit={handleSubmit}>
-                <FormInput label="Display Name" type="text" onChange={handleChange} name="displayName" value={displayName} required/>
-                <FormInput label="Email" type="email" onChange={handleChange} name="email" value={email} required/>
-                <FormInput label="Password" type="password" onChange={handleChange} name="password" value={password} required/>
-                <FormInput label="Confirm Password" type="password" onChange={handleChange} name="confirmPassword" value={confirmPassword} required/>
+                <FormInput id="displayName" label="Display Name" type="text" onChange={handleChange} name="displayName" value={displayName} required/>
+                <FormInput id="email" label="Email" type="email" onChange={handleChange} name="email" value={email} required/>
+                <FormInput id="password" label="Password" type="password" onChange={handleChange} name="password" value={password} required/>
+                <FormInput id="confirmPassword" label="Confirm Password" type="password" onChange={handleChange} name="confirmPassword" value={confirmPassword} required/>
 
                 <Button type="submit">Submit</Button>
             </form>

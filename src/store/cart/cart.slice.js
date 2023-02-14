@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-const CART_INITIAL_STATE = {
+export const CART_INITIAL_STATE = {
   isCartOpen: false,
   cartItems: [],
 };
@@ -28,3 +28,4 @@ const cartSlice = createSlice({
 });
 
 export const { reducer: cartReducer } = cartSlice;
+export const { SET_IS_CART_OPEN, SET_CART_ITEMS } = cartSlice.actions;

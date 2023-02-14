@@ -63,3 +63,5 @@ export const DirectoryItemContainer = styled.div`
     height: 200px;
   }
 `;
+
+DirectoryItemContainer.displayName = "DirectoryItemContainer";

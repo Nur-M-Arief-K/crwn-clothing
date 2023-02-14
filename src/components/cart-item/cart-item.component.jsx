@@ -12,7 +12,7 @@ const CartItem = memo((props) => {
                 <span className="price">{ quantity } x { price }</span>
             </ItemDetails>
         </CartItemContainer>
-    )
+    );
 });
 
 export default CartItem;
